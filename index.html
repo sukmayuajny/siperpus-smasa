@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPERPUS - SMAN 1 Magetan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+        :root {
+            --pastel-blue: #E3F2FD;
+            --pastel-pink: #FCE4EC;
+            --soft-blue: #90CAF9;
+            --soft-pink: #F48FB1;
+            --text-main: #455A64;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--pastel-blue) 0%, var(--pastel-pink) 100%);
+            color: var(--text-main);
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-input {
+            border: 2px solid #E1E8EE;
+            border-radius: 15px;
+            padding: 12px 18px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--soft-blue);
+            box-shadow: 0 0 0 4px rgba(144, 202, 249, 0.2);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--soft-blue), var(--soft-pink));
+            color: white;
+            transition: all 0.3s transform;
+            border-radius: 15px;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(244, 143, 177, 0.3);
+        }
+
+        .btn-disabled {
+            background: #CFD8DC;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .category-radio:checked + div {
+            background: var(--soft-blue);
+            color: white;
+            border-color: var(--soft-blue);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide { animation: slideUp 0.5s ease-out forwards; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-4xl mx-auto text-center mb-10 animate-slide">
+        <div class="inline-block p-4 bg-white rounded-full shadow-md mb-6 border-4 border-blue-50">
+            <img src="https://smasa-magetan.sch.id/wp-content/uploads/2023/06/LOGO-SMA-NEGERI-1-MAGETAN-258x300.png" 
+                 alt="Logo SMAN 1 Magetan" class="h-24 w-auto mx-auto">
+        </div>
+        <h1 class="text-5xl font-extrabold tracking-tight text-blue-400">SIPERPUS</h1>
+        <p class="text-xl font-semibold text-pink-400 mt-2">Sistem Informasi Perpustakaan SMAN 1 Magetan</p>
+        <div class="flex justify-center gap-2 mt-4">
+            <div class="w-12 h-1.5 bg-blue-200 rounded-full"></div>
+            <div class="w-12 h-1.5 bg-pink-200 rounded-full"></div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+        
+        <!-- Form Peminjaman -->
+        <section class="glass-card p-8 animate-slide" style="animation-delay: 0.1s">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-500">
+                    <i class="fas fa-edit text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold">Form Peminjaman</h2>
+            </div>
+
+            <!-- Target iframe tersembunyi -->
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+            <form id="loanForm" method="POST" target="hidden_iframe" class="space-y-5">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-bold mb-1.5 ml-1">Nama Lengkap</label>
+                        <input type="text" name="fullName" required class="w-full form-input" placeholder="Masukkan nama lengkap...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1.5 ml-1">NIS</label>
+                        <input type="number" name="nis" required class="w-full form-input" placeholder="Nomor Induk Siswa">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1.5 ml-1">Kelas</label>
+                        <select name="grade" required class="w-full form-input">
+                            <option value="">Pilih Kelas</option>
+                            <optgroup label="Kelas X">
+                                <option>X-1</option><option>X-2</option><option>X-3</option>
+                            </optgroup>
+                            <optgroup label="Kelas XI">
+                                <option>XI-MIPA</option><option>XI-IPS</option>
+                            </optgroup>
+                            <optgroup label="Kelas XII">
+                                <option>XII-MIPA</option><option>XII-IPS</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-3 ml-1">Jenis Buku</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="bookType" value="Paket" class="hidden category-radio" checked>
+                            <div class="text-center py-2 border-2 border-gray-100 rounded-xl font-bold transition-all text-sm">Paket</div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="bookType" value="Fiksi" class="hidden category-radio">
+                            <div class="text-center py-2 border-2 border-gray-100 rounded-xl font-bold transition-all text-sm">Fiksi</div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="bookType" value="Referensi" class="hidden category-radio">
+                            <div class="text-center py-2 border-2 border-gray-100 rounded-xl font-bold transition-all text-sm">Referensi</div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-1.5 ml-1">Judul Buku</label>
+                    <input type="text" name="bookTitle" required class="w-full form-input" placeholder="Apa judul buku yang dipinjam?">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1.5 ml-1">Tgl Pinjam</label>
+                        <input type="date" id="borrowDate" name="borrowDate" required class="w-full form-input">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1.5 ml-1">Tgl Kembali</label>
+                        <input type="date" id="returnDate" name="returnDate" required class="w-full form-input">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full py-4 btn-gradient font-bold text-lg mt-6 flex items-center justify-center gap-3">
+                    <i class="fas fa-save"></i> <span id="btnText">Simpan Data</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Daftar Aktivitas -->
+        <section class="glass-card p-8 animate-slide" style="animation-delay: 0.2s">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center text-pink-500">
+                        <i class="fas fa-history text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">Aktivitas Terbaru</h2>
+                </div>
+                <div id="counter" class="bg-blue-400 text-white px-4 py-1.5 rounded-full text-xs font-bold">0 Data</div>
+            </div>
+
+            <div id="loanList" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                <div id="emptyState" class="text-center py-20">
+                    <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" alt="Kosong" class="w-24 h-24 mx-auto opacity-20 mb-4">
+                    <p class="text-gray-400 font-medium">Belum ada data peminjaman hari ini.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Sukses -->
+    <div id="modal" class="fixed inset-0 bg-blue-900/30 backdrop-blur-sm hidden flex items-center justify-center z-[100] px-4">
+        <div class="bg-white rounded-[40px] p-10 max-w-sm w-full text-center shadow-2xl animate-slide">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Berhasil!</h3>
+            <p class="text-gray-500 mb-8">Data peminjaman telah tercatat di sistem SIPERPUS.</p>
+            <button onclick="closeModal()" class="w-full py-4 btn-gradient font-bold rounded-2xl">Lanjutkan</button>
+        </div>
+    </div>
+
+    <script>
+        /** * PENTING: Ganti URL di bawah ini dengan link Web App Anda!
+         * Link ini didapat setelah klik Deploy > New Deployment > Web App di Google Apps Script.
+         */
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyXxqIQmfz8_LV01Ux5tC6rtlQFPA_evzaTW5knK8iDz8aUuHp9S0qbZ8RV6l6Vzu6UHw/exec"; 
+
+        let loans = [];
+        let isSubmitting = false;
+        const loanForm = document.getElementById('loanForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const hiddenIframe = document.getElementById('hidden_iframe');
+
+        // Memasang action form
+        loanForm.action = SCRIPT_URL;
+
+        // Fungsi yang dipanggil saat iframe selesai memuat respon dari server
+        window.handleIframeLoad = function() {
+            if (isSubmitting) {
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-disabled');
+                btnText.innerText = "Simpan Data";
+                
+                showModal();
+                loanForm.reset();
+                setDefaultDates();
+            }
+        };
+
+        // Pasang event listener ke iframe
+        hiddenIframe.onload = window.handleIframeLoad;
+
+        function setDefaultDates() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('borrowDate').value = today;
+            
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('returnDate').value = nextWeek.toISOString().split('T')[0];
+        }
+
+        window.onload = setDefaultDates;
+
+        loanForm.addEventListener('submit', (e) => {
+            if (SCRIPT_URL === "URL_WEB_APP_ANDA_DISINI" || SCRIPT_URL === "") {
+                e.preventDefault();
+                alert("Kesalahan: URL Script belum diisi! \n\nSilakan buka file siperpus.html dan cari variabel SCRIPT_URL di bagian paling bawah.");
+                return;
+            }
+
+            isSubmitting = true;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('btn-disabled');
+            btnText.innerText = "Mengirim...";
+
+            // Menambahkan data ke tampilan list secara instan (UI feedback)
+            const formData = new FormData(loanForm);
+            const dataObj = {};
+            formData.forEach((value, key) => dataObj[key] = value);
+            loans.unshift({...dataObj, timestamp: new Date()});
+            renderList();
+        });
+
+        function renderList() {
+            const container = document.getElementById('loanList');
+            const empty = document.getElementById('emptyState');
+            
+            if(loans.length > 0) empty.classList.add('hidden');
+
+            container.innerHTML = loans.map(item => `
+                <div class="bg-white/50 border border-white p-5 rounded-3xl animate-slide shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-bold text-blue-600">${item.fullName}</h4>
+                            <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">${item.nis} • ${item.grade}</p>
+                        </div>
+                        <span class="bg-pink-100 text-pink-500 text-[10px] px-2 py-1 rounded-lg font-bold">${item.bookType}</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-book text-gray-300 text-sm"></i>
+                        <span class="text-sm font-semibold italic text-gray-600 truncate">${item.bookTitle}</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-dashed border-gray-200">
+                        <div class="text-[10px] text-gray-400">Tgl Pinjam: <b class="text-gray-600">${item.borrowDate}</b></div>
+                        <div class="text-[10px] text-gray-400">Tgl Kembali: <b class="text-pink-500">${item.returnDate}</b></div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('counter').innerText = `${loans.length} Data`;
+        }
+
+        function showModal() { document.getElementById('modal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    </script>
+</body>
+</html>
